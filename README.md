@@ -5,7 +5,7 @@
 ## Поддержка
 При возникновении вопросов прошу обращаться на электронную почту korobeinikova13@gmail.com
 ## Архитектура проекта
-Архитектура проекта представлена в файле 
+Архитектура проекта представлена в [файле](https://github.com/TatsianaKorobeinikova/Magazin/blob/main/%D0%90%D1%80%D1%85%D0%B8%D1%82%D0%B5%D0%BA%D1%82%D1%83%D1%80%D0%B0/%D0%90%D1%80%D1%85%D0%B8%D1%82%D0%B5%D0%BA%D1%82%D1%83%D1%80%D0%B0) 
 ## Структура базы данных
 описание таблиц с примерами в [MIRO](https://miro.com/app/board/uXjVL3TQu1g=/)
 логическая объектная модель в [drawio](https://app.diagrams.net/?libs=general;uml#G1Rw_4Aqg6tOkqc_uTIdBHKmdDo5FHxmle#%7B%22pageId%22%3A%22b520641d-4fe3-3701-9064-5fc419738815%22%7D) 
