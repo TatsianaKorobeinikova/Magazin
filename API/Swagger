@@ -1,0 +1,454 @@
+openapi: 3.0.0
+servers:
+  # Added by API Auto Mocking Plugin
+  - description: SwaggerHub API Auto Mocking
+    url: https://virtserver.swaggerhub.com/KOROBEINIKOVA13_1/Kor/1.0.0
+  - description: SwaggerHub API Auto Mocking
+    url: https://virtserver.swaggerhub.com/KOROBEINIKOVA13_1/Kor/1.0.1
+info:
+  version: "1.0.0"
+  title: API for the E-Shop
+  description: The API for the E-Shop
+  contact:
+    email: korobeinikova13@gmail.com
+
+tags:
+  - name: user
+    description: Пользователь (все категории пользователей)
+  - name: economist
+    description: Экономист
+  - name: client
+    description: Авторизованный пользователь
+
+paths:
+  /login:
+    post:
+      tags:
+        - user
+      summary: Вход пользователя в систему
+      description: Аутентификация пользователя с использованием логина и пароля.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - username
+                - password
+              properties:
+                username:
+                  type: string
+                  description: Логин пользователя
+                  example: "korobeinikova13@gmail.com"
+                password:
+                  type: string
+                  format: password
+                  description: Пароль пользователя
+                  example: "password"
+      responses:
+        '200':
+          description: Успешная аутентификация
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  token:
+                    type: string
+                    description: Bearer Token для аутентификации
+                    example: "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6IjEyMzQiLCJ1c2VybmFtZSI6ImJpcnNjaG5lcnNvZXZfaGVsbG9fc2VjdXJpdHkiLCJyb2xlIjoidXNlciJ9.cZL6FJ2EKzK4gSKpPVo5v6poE1T9m3MxoA3on8RHkJ2I"
+        '400':
+          description: Некорректный запрос (например, отсутствуют обязательные параметры)
+        '401':
+          description: Неверные данные для входа (неправильный логин или пароль)
+        '500':
+          description: Внутренняя ошибка сервера
+
+  /products:
+    get:
+      tags:
+        - user
+        - client
+        - economist
+      summary: Просмотр всех товаров
+      description: Получение списка всех товаров в магазине.
+      responses:
+        '200':
+          description: Список товаров
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/product'
+        '500':
+          description: Внутренняя ошибка сервера
+
+    post:
+      tags:
+        - economist
+      summary: Создание нового товара
+      description: Экономист может создать новый товар.
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/productNew'
+      responses:
+        '201':
+          description: Товар успешно создан
+        '400':
+          description: Некорректные данные
+        '500':
+          description: Внутренняя ошибка сервера
+
+  /products/{product_id}:
+    get:
+      tags:
+        - user
+        - client
+        - economist
+      summary: Просмотр товара
+      description: Получение информации о конкретном товаре по его ID.
+      parameters:
+        - name: product_id
+          in: path
+          description: Идентификатор товара
+          required: true
+          schema:
+            type: integer
+            example: 1
+      responses:
+        '200':
+          description: Товар найден
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/product'
+        '404':
+          description: Товар не найден
+        '500':
+          description: Внутренняя ошибка сервера
+
+    patch:
+      tags:
+        - economist
+      summary: Обновление информации о товаре
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: product_id
+          in: path
+          description: Идентификатор товара, который нужно обновить
+          required: true
+          schema:
+            type: integer
+            example: 1
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/product'
+      responses:
+        '200':
+          description: Товар успешно обновлен
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/product'
+        '400':
+          description: Некорректные данные
+        '404':
+          description: Товар не найден
+        '500':
+          description: Внутренняя ошибка сервера
+
+
+  /reviews:
+    post:
+      tags:
+        - client
+      summary: Отзыв на товар
+      description: Авторизованный пользователь может оставить отзыв на приобретенный ранее товар.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/review'
+      responses:
+        '200':
+          description: Отзыв добавлен
+        '404':
+          description: Группа товаров не найдена
+        '500':
+          description: Внутренняя ошибка сервера
+          
+  /clients:
+    post:
+      tags:
+        - economist
+      summary: Добавление дисконтной карты клиенту
+      description: Привязка дисконтной карты с клиентом.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/client'
+      responses:
+        '200':
+          description: Дисконтная карта добавлена клиенту
+        '404':
+          description: Дисконтная карта не добавлена клиенту
+        '500':
+          description: Внутренняя ошибка сервера
+
+  /product_group/{group_id}/product:
+    get:
+      tags:
+        - user
+        - client
+        - economist
+      summary: Просмотр товаров в группе
+      description: Получение списка товаров, относящихся к конкретной группе.
+      parameters:
+        - name: group_id
+          in: path
+          description: Идентификатор группы товаров
+          required: true
+          schema:
+            type: integer
+            example: 1
+      responses:
+        '200':
+          description: Список товаров в группе
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/product'
+        '404':
+          description: Группа товаров не найдена
+        '500':
+          description: Внутренняя ошибка сервера
+
+
+  /buskets{product_id}:
+    post:
+      tags:
+        - client
+      summary: Добавить товар в корзину
+      description: Добавление товара в корзину
+      parameters:
+        - name: product_id
+          in: path
+          description: Идентификатор товара для удаления
+          required: true
+          schema:
+            type: integer
+            example: 1
+      security:
+        - bearerAuth: [] 
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/busketProduct'
+      responses:
+        '201':
+          description: товар добавлен в корзину
+        '400':
+          description: некорректный ввод
+ 
+  
+    delete:
+      tags:
+        - client
+      summary: Удалить товар из корзины
+      operationId: deleteItem
+      security:
+        - bearerAuth: []    
+      description: Удаление товара из корзины по его идентификатору
+      parameters:
+        - name: product_id
+          in: path
+          description: Идентификатор товара для удаления
+          required: true
+          schema:
+            type: integer
+            example: 1
+      responses:
+        '200':
+          description: Товар успешно удален из корзины
+        '404':
+          description: Товар не найден
+        '500':
+          description: Внутренняя ошибка сервера
+          
+
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+
+  schemas:
+    product:
+      type: object
+      required:
+        - product_id
+        - poduct_name
+        - start_price
+        - discont
+        - price_with_discont
+        - group_id
+        - product_bar_code
+        - product_count
+      properties:
+        product_id:
+          type: integer
+          description: Идентификатор товара
+          example: 5693
+        product_name:
+          type: string
+          description: Название продукта
+          example: "Елочная игрушка Дед Мороз"
+        start_price:
+          type: number
+          format: decimal
+          description: Стартовая цена товара
+          example: 56.00
+        discont:
+          type: number
+          format: decimal
+          description: Процент скидки на товар
+          example: 15
+        price_with_discont:
+          type: number
+          format: decimal
+          description: Цена товара после применения скидки
+          example: 1.99
+        group_id:
+          type: integer
+          description: Идентификатор группы
+          example: 256
+        product_bar_code:
+          type: string
+          description: Бар-код товара
+          example: "2536983696"
+        product_count:
+          type: integer
+          description: Количество товара на складе
+          example: 563
+
+    productNew:
+      type: object
+      required:
+        - group_id
+        - product_name
+        - start_price
+        - discont
+        - price_with_discont
+        - poduct_bar_code
+        - product_count
+      properties:
+        group_id:
+          type: integer
+          description: Идентификатор группы товаров
+          example: 256
+        product_name:
+          type: string
+          description: Название продукта
+          example: "Елочная игрушка Снегурочка"
+        start_price:
+          type: number
+          format: decimal
+          description: Стартовая цена товара
+          example: 56.00
+        discont:
+          type: number
+          format: decimal
+          description: Процент скидки на товар
+          example: 15
+        price_with_discont:
+          type: number
+          format: decimal
+          description: Цена товара после применения скидки
+          example: 1.99
+        product_bar_code:
+          type: string
+          description: Бар-код товара
+          example: "2536983696"
+        product_count:
+          type: integer
+          description: Количество товара на складе
+          example: 563
+
+    review:
+      type: object
+      required:
+        - product_id
+        - client_id
+        - review
+      properties:
+        product_id:
+          type: integer
+          description: Идентификатор продукта
+          example: 563
+        client_id:
+          type: integer
+          description: Идентификатор клиента
+          example: 56963
+        review:
+          type: string
+          description: Отзыв на товар
+          example: "Классный товар"
+          
+    client:
+      type: object
+      required:
+        - client_id
+        - discont_card_id
+      properties:
+        client_id:
+          type: integer
+          description: Идентификатор клиента
+          example: 56963
+        discont_card_id:
+          type: integer
+          description: Идентификатор дисконтной карты
+          example: 25696
+
+    busketProduct:
+      type: object
+      required:
+        - product_id
+        - busket_id
+        - client_id
+        - product_count
+      properties:
+        product_id:
+          type: integer
+          description: Идентификатор продукта
+          example: 10
+        busket_id:
+          type: integer
+          description: Идентификатор корзины
+          example: 10
+        client_id:
+          type: integer
+          description: Идентификатор клиента
+          example: 2
+        product_count:
+          type: integer
+          description: Количество продукта в корзине
+          example: 1
