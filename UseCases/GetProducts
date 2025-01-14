@@ -1,0 +1,40 @@
+#request
+/product_groups/256/products
+
+#responce
+200 ОК
+{
+    "group_id": 256,
+    "group_name": "Елочные игрушки",
+    "product": [
+        {
+            "product_id": 23566,
+            "group_id": 256,
+            "product_name": "Елочная игрушка Дед Мороз",
+            "start_price": 56,
+            "discount": 15,
+            "price_with_discont": 47.5,
+            "product_bar_code": 2536983696,
+            "product_count": 563,
+            "product_time_add": "11.12.2024 12:12:12",
+            "product_time_update": "11.12.2024 12:12:12"
+        },
+        {
+            "product_id": 23567,
+            "group_id": 256,
+            "product_name": "Елочная игрушка Снегурочка",
+            "start_price": 48,
+            "discount": 10,
+            "price_with_discont": 43.2,
+            "product_bar_code": 2536985869,
+            "product_count": 500,
+            "product_time_add": "11.12.2024 12:12:12",
+            "product_time_update": "11.12.2024 12:12:12"
+        }
+    ]
+}
+404 Not Found
+{
+  "error": "not_found",
+  "message": "The product group with ID 256 does not exist."
+}
