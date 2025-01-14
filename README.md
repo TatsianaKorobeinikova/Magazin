@@ -13,3 +13,5 @@
 Документация [API](https://app.swaggerhub.com/apis/KOROBEINIKOVA13_1/Kor/1.0.0#/economist/post_clients) 
 ### Описание kafka
 Описание используемого брокера сообщений, приложений консъюмера, а также требования к кафке представлены в [kafka](https://docs.google.com/spreadsheets/d/1sUG5s3HhB3LFRVLDiuyx2Dlz1wKBf65CMi_0m9FXA_o/edit?gid=212512323#gid=212512323)
+
+> читайте документацию :)
