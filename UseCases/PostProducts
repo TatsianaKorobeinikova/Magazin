@@ -1,0 +1,28 @@
+#request
+{
+    "group_id": 256,
+    "product_name": "Елочная игрушка Дед Мороз",
+    "start_price": 56,
+    "discount": 15,
+    "price_with_discont": 47.5,
+    "product_bar_code": 2536983696,
+    "product_count": 563
+}
+
+#response
+201 Created
+{
+    "message": "Создан товар id=",
+    "product": {
+        "product_id": 23566,
+        "group_id": 256,
+        "product_name": "Елочная игрушка Дед Мороз",
+        "start_price": 56,
+        "discount": 15,
+        "price_with_discont": 47.5,
+        "product_bar_code": 2536983696,
+        "product_count": 563,
+        "product_time_add": "11.12.2024 12:12:12",
+        "product_time_update": "11.12.2024 12:12:12"
+    }
+}
