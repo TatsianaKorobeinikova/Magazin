@@ -14,7 +14,8 @@
 ### Описание kafka
 Описание используемого брокера сообщений, приложений консъюмера, а также требования к кафке представлены в [kafka](https://docs.google.com/spreadsheets/d/1sUG5s3HhB3LFRVLDiuyx2Dlz1wKBf65CMi_0m9FXA_o/edit?gid=212512323#gid=212512323)
 ### Примеры UseCases
-[UseCases](https://docs.google.com/spreadsheets/d/1sUG5s3HhB3LFRVLDiuyx2Dlz1wKBf65CMi_0m9FXA_o/edit?gid=0#gid=0)
-примеры запросов и ответов в папке UseCases
++ [UseCases](https://docs.google.com/spreadsheets/d/1sUG5s3HhB3LFRVLDiuyx2Dlz1wKBf65CMi_0m9FXA_o/edit?gid=0#gid=0)
++ примеры запросов и ответов в папке [UseCases](https://github.com/TatsianaKorobeinikova/Magazin/tree/main/UseCases)
 
-> читайте документацию :)
+
+> всегда документируйте изменения :)
